@@ -2,7 +2,7 @@
 
 This folder contains the Vue 3 + Vite web app shell aligned to the backend contract in:
 
-- `/Users/portavion/code/tasklisp/docs/web-v1-backend-contract.md`
+- `/Users/portavion/code/tasklisp/docs/web-v1-backend-contract.org`
 
 ## Stack
 
