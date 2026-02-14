@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# local scaffolding metadata
+.cookiecutter_local/
+
+# frontend build/runtime artifacts
+web/node_modules/
+web/dist/
+web/.vite/
+
+# backend local artifacts (most also covered in todo_lisp/.gitignore)
+todo_lisp/.venv/
+todo_lisp/.ruff_cache/
+todo_lisp/staticfiles/
