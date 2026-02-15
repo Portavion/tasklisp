@@ -65,6 +65,21 @@ def test_session_authenticated_returns_user(client, user: User):
     }
 
 
+def test_session_authenticated_allows_blank_user_name(client, user: User):
+    site = Site.objects.get(id=settings.SITE_ID)
+    create_social_app(provider="google", site=site)
+    user.name = ""
+    user.save(update_fields=["name"])
+    client.force_login(user)
+
+    response = client.get(reverse("api:auth-session"))
+
+    assert response.status_code == HTTPStatus.OK
+    payload = response.json()
+    assert payload["authenticated"] is True
+    assert payload["user"]["name"] == ""
+
+
 def test_providers_defaults_to_inbox_next(client):
     site = Site.objects.get(id=settings.SITE_ID)
     create_social_app(provider="google", site=site)
