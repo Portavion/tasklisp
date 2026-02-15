@@ -1,19 +1,26 @@
+import type { Ref } from 'vue';
+import { computed } from 'vue';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
+import { SESSION_QUERY_KEY, setCsrfToken } from '../auth/sessionState';
 import { fetchAuthProviders, fetchSession, logout } from '../api/auth';
 
 export function useSession() {
   return useQuery({
-    queryKey: ['session'],
-    queryFn: fetchSession,
+    queryKey: SESSION_QUERY_KEY,
+    queryFn: async () => {
+      const session = await fetchSession();
+      setCsrfToken(session.csrf_token);
+      return session;
+    },
     staleTime: 60_000,
     retry: false
   });
 }
 
-export function useAuthProviders() {
+export function useAuthProviders(nextPath?: Ref<string | undefined>) {
   return useQuery({
-    queryKey: ['auth-providers'],
-    queryFn: fetchAuthProviders,
+    queryKey: computed(() => ['auth-providers', nextPath?.value ?? null]),
+    queryFn: () => fetchAuthProviders(nextPath?.value),
     staleTime: 60_000
   });
 }
@@ -24,9 +31,11 @@ export function useLogout() {
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.setQueryData(['session'], {
+      setCsrfToken(null);
+      queryClient.setQueryData(SESSION_QUERY_KEY, {
         authenticated: false,
-        providers: ['google', 'apple']
+        providers: [],
+        csrf_token: ''
       });
 
       queryClient.invalidateQueries({ queryKey: ['workspaces'] });

@@ -18,11 +18,12 @@ export interface SessionResponse {
   authenticated: boolean;
   user?: SessionUser;
   providers: string[];
+  csrf_token: string;
 }
 
 export interface AuthProvidersResponse {
-  google_login_url: string;
-  apple_login_url: string;
+  google_login_url: string | null;
+  apple_login_url: string | null;
 }
 
 export interface Workspace {

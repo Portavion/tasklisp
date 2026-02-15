@@ -1,24 +1,16 @@
-import { apiFetch, ApiError } from './http';
+import { apiFetch } from './http';
 import type { AuthProvidersResponse, SessionResponse } from './types';
 
-const UNAUTHENTICATED_SESSION: SessionResponse = {
-  authenticated: false,
-  providers: ['google', 'apple']
-};
-
 export async function fetchSession(): Promise<SessionResponse> {
-  try {
-    return await apiFetch<SessionResponse>('/api/v1/auth/session');
-  } catch (error) {
-    if (error instanceof ApiError && error.status === 401) {
-      return UNAUTHENTICATED_SESSION;
-    }
-
-    throw error;
-  }
+  return apiFetch<SessionResponse>('/api/v1/auth/session');
 }
 
-export async function fetchAuthProviders(): Promise<AuthProvidersResponse> {
+export async function fetchAuthProviders(nextPath?: string): Promise<AuthProvidersResponse> {
+  if (nextPath) {
+    const params = new URLSearchParams({ next: nextPath });
+    return apiFetch<AuthProvidersResponse>(`/api/v1/auth/providers?${params.toString()}`);
+  }
+
   return apiFetch<AuthProvidersResponse>('/api/v1/auth/providers');
 }
 

@@ -1,3 +1,5 @@
+import { getCsrfToken } from '../auth/sessionState';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
 const MUTATING_METHODS = new Set(['POST', 'PATCH', 'PUT', 'DELETE']);
 
@@ -10,11 +12,6 @@ export class ApiError extends Error {
     this.status = status;
     this.data = data;
   }
-}
-
-function getCsrfToken(): string | null {
-  const match = document.cookie.match(/(?:^|; )csrftoken=([^;]+)/);
-  return match ? decodeURIComponent(match[1]) : null;
 }
 
 function buildUrl(path: string): string {

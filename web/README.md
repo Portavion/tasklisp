@@ -20,6 +20,12 @@ npm run dev
 
 Set `VITE_API_BASE_URL` only if API is not same-origin.
 
+Run tests:
+
+```bash
+npm run test
+```
+
 ## App shell coverage
 
 - Session bootstrap (`GET /api/v1/auth/session`)
@@ -28,8 +34,11 @@ Set `VITE_API_BASE_URL` only if API is not same-origin.
 - Task views (`GET /api/v1/tasks` for inbox/today/upcoming/search)
 - Quick add (`POST /api/v1/tasks/quick-add`)
 - Conflicts list (`GET /api/v1/conflicts`)
+- Route guards for authenticated app pages
+- Provider `next` wiring for post-login redirects
 
 ## Notes
 
 - This is a shell scaffold, not feature-complete UI.
+- Mutating API requests send `X-CSRFToken` from session bootstrap (`csrf_token`).
 - Task editing, filters CRUD UI, move/reorder UI, and settings forms are planned next.
