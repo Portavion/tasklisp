@@ -29,9 +29,10 @@ Date: 2026-02-12 Status: Draft v1
 - [X] Wired allauth Apple/Google providers in settings and added
   =sync_social_apps= env bootstrap command.
 - [X] Added =PyJWT= dependency required by allauth Apple provider.
-- [ ] Next: commit first migration set.
+- [X] Next: commit first migration set.
 - [ ] Next: implement auth/session endpoints.
 - [ ] Next: implement =quick-add= and =tasks list= endpoints.
+- [ ] redesign the login screen with proper google / apple logos
 
 ** 2) v1 Backend Scope
 :PROPERTIES:
